@@ -1,0 +1,30 @@
+
+str = 'NodeKey!!한글' '
+const Ekey = "noedvue!!";
+
+=========== nodejs : crypt-js encrypt, decrypt =====
+10 Apr 15:00:11 - sha2=> "NodeKey!!한글"+"noedvue!!" 50c36405b8125ae3673fb58065f30a08459813b152528f4803d2d746cc82216d
+
+10 Apr 14:37:27 - sha2=> NodeKey!!한글 bba3b90497b96902df8537d6ebce69c954d6dae566d2fa06b7a787d04a8ae13c
+10 Apr 14:37:27 - enc=> NodeKey!!한글 U2FsdGVkX1+e6/eh1SCCFJimXvUDx0HrSJM69Rs2c80=
+10 Apr 14:37:27 - dec=> NodeKey!!한글 NodeKey!!한글
+
+
+
+password('NodeKey!!한글')                  |SHA2('NodeKey!!한글', 256)                                        |SHA2(concat('NodeKey!!한글', 'noedvue!!'), 256)                   |
+-----------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|
+*1EC96AE8BD78A70B0888E155E01CF307C6899CEC|bba3b90497b96902df8537d6ebce69c954d6dae566d2fa06b7a787d04a8ae13c|50c36405b8125ae3673fb58065f30a08459813b152528f4803d2d746cc82216d|
+
+
+========== MariaDB ==================
+MariaDB [testdb]> select password('NodeKey!!한글')
+    -> ;
++-------------------------------------------+
+| password('NodeKey!!한글')                 |
++-------------------------------------------+
+| *1EC96AE8BD78A70B0888E155E01CF307C6899CEC |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [testdb]> 
+;

@@ -21,9 +21,14 @@
   },
   "homepage": "https://github.com/jungnamsik/nodevue#readme",
   "dependencies": {
+    "blubird": "0.0.1-security",
+    "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "crypto-js": "^4.0.0",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "hashmap": "^2.4.0",
+    "mysql": "^2.18.1",
+    "open-graph-scraper": "^3.6.2"
   }
 }

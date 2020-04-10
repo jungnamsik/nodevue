@@ -20,13 +20,24 @@ connection.query('select * from tno where no >= ? and cno >= ?', [1, '01'], func
       console.log('The First User is: ', rows[i]);
   }
 
-  rows.forEach(element => {
-      console.log("element=>",element["cno"]);
+  
+  fields.forEach(obj=>{
+    console.log("obj=>", obj["name"]) ;
+  });
+  
+  rows.forEach((element, idx) => {
+      console.log("idx, element=>",idx, element, typeof(element));
+      for (var i in element) {
+        console.log("i,element[i]=>",i,element[i]) ;
+      }
   });
 
-  fields.forEach(obj=>{
-      console.log("obj=>", obj["name"]) ;
-  });
+  for (x in rows) {
+    console.log("==>",x,rows[x]) ;
+    for (y in rows[x]) {
+      console.log("x,y,rows[x][y]=>",x,y, rows[x][y]);
+    }
+  }
 
 
 //   fields.entries()
