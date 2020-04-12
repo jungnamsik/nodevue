@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Client</title>
+    <style>
+        .red { color:red}
+    </style>
+</head>
+<body>
+    <h1>Chat Client <strong id="myid" class="red"></strong></h1>
+    <div id="status" class="red"></div>
+
+    <div id="list">
+
+    </div>
+
+    <div id="rooms"></div>
+    <div>
+        <input type="text" id="roomid">
+        <button onclick="joinRoom()">join Room</button>
+    </div>    
+
+    <div>
+        <input type="text" id="msg" value="hi~~">
+        <button onclick="send()" id="btnSend">Send</button>
+    </div>
+
+    <div>
+        <input type="text" id="socketid" value="Hidden)hi~~">
+        <button onclick="sendOne()" id="btnSendOne">SendOne</button>
+    </div>
+    <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    var square = 'square' ;
+    var joinedRoom = square;
+    var socket = io('http://192.168.127.4:7000?aaa=123');
+
+    socket.on('connect', function(){
+        console.log("connected")
+
+        makeJoin( joinedRoom );
+        displayRooms();
+
+    });
+
+    socket.on('message', function(data){
+        console.log("message>>", data);
+
+        let msg = data.msg ;
+
+        let $list = $('#list') ;
+        $list.append(`<div><strong style='color:green'>${msg}</strong></div>`);
+        
+        if (data.socketId ) {
+            let myid = data.socketId ;
+            console.log(myid);
+            $("#myid").text(myid);
+        } 
+    });
+
+    socket.on('disconnect', function(){
+        console.log("disconnected!!");
+        $('#status').text('DisConnected Room:') ;
+
+    });
+
+    function send() {
+        let msg = $('#msg').val();
+        socket.emit('message', {room: joinedRoom, msg: msg}, function(ret) {
+            console.log("message.callback>>", ret) ;
+            let $list = $('#list') ;
+            $list.append(`<div>Me=>${msg}</div>`);
+
+        });
+    }
+
+    function sendOne() {
+        let msg = "Single => " + $('#msg').val();
+        let socketid = $('#socketid').val(); 
+        if (!socketid) return alert('input the socket!!') ;
+        socket.emit('message-for-one', {room: joinedRoom, socketid:socketid, msg: msg}, function(ret) {
+            console.log("message.callback>>", ret) ;
+            let $list = $('#list') ;
+            $list.append(`<div>Me=>${msg}</div>`);
+        });
+    }
+
+    function joinRoom(  ) {
+        let roomid = $('input#roomid').val() ;
+
+        if (!roomid) {
+            alter ('input roomid');
+            return ;
+        }
+
+        makeJoin(roomid) ;
+    }
+
+    function makeJoin (roomid) {
+        socket.emit('join', roomid, ()=>{
+            if (roomid != joinedRoom)
+                socket.emit('leave', joinedRoom);
+            joinedRoom = roomid ;
+            displayRooms();
+        }) ;
+
+    }
+
+    function displayRooms () {
+        socket.emit('rooms', (rooms)=>{
+            console.log('rooms=>', rooms);
+            var roomInfo = "";
+            for (x in rooms)
+                roomInfo += x +":"+ rooms[x] + "\n";
+            $('#rooms').text(roomInfo) ;
+            $('#info').text(roomInfo) ;
+        });
+        $('#status').text('Connected Join Room:' + joinedRoom) ;
+
+    }
+    </script>
+
+<textarea name="" id="info" cols="80" rows="10"></textarea>
+</body>
+</html>
