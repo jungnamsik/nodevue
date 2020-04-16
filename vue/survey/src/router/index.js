@@ -11,6 +11,11 @@ Vue.use(VueRouter)
     component: Home
   },
   {
+    path: '/survey/:id'
+    ,name: 'survey'
+    ,component: () => import('../views/Survey')
+  },
+  {
     path: '/adm'
     ,name: 'adm'
     ,component: () => import('../views/Adm')
