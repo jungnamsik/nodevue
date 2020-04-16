@@ -11,6 +11,11 @@ Vue.use(VueRouter)
     component: Home
   },
   {
+    path: '/adm'
+    ,name: 'adm'
+    ,component: () => import('../views/Adm')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -23,6 +28,7 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  linkExactActiveClass : 'active',
   routes
 })
 
