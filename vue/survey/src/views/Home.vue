@@ -33,7 +33,17 @@
 
 export default {
   name: 'Home'
-  , created : {
+  , created() {
+    let url = this.ApiURL + "surveys" ;
+    console.log("url>>>> ", url);
+    this.$http.get(url).then(ret => {
+      if (ret.status != 200) {
+        alert('Error on get Survey!!');
+        console.log(ret) ;
+        return ;
+      }
+      this.surveys = ret.data ;
+    }) ;
 
   }
   , data() {
@@ -42,6 +52,8 @@ export default {
         {id:1, title:"survey1"}, {id:2, title:"survey2"}
         ]
     }
+  }
+  ,methods : {
   }
 }
 </script>

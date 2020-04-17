@@ -18,11 +18,18 @@ Vue.prototype._ = lodash
 Vue.mixin(utils)
 
 const EventBus = new Vue({
-  methods: {
+  data() {
+    return {
+      isAdmin : false
+    }
+  }
+  ,methods: {
   }
 })
 
 Vue.prototype.EventBus = EventBus ;
+
+Vue.prototype.ApiURL = "http://localhost:7000/apis/";
 
 new Vue({
   router,

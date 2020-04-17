@@ -1,13 +1,83 @@
 
 const Mydb = require('./mydb') ;
 
-
 module.exports = function(app, pool) {
+
     app.get('/', (req, res) => {
         // res.send("Hello NodeJS!!");
         // res.json(testJson);
         res.render('index', {"name":"abcd"})
     });
+
+
+    
+
+
+    app.post("/apis/adminkey", (req, res)=>{
+        let key = req.body.key ;
+        if (key === '1212'|| key === "surveykey!!") {
+            res.status(200).json({});
+        } else {
+            res.status(403).json({});
+        }
+    }) ;
+
+    app.get("/apis/surveys", (req, res)=>{
+        let mydb = new Mydb(pool);
+        let sql = 'SELECT id, title, state FROM testdb.Survey limit ?' ;
+        let limit_num = 100
+        mydb.execute(conn => {
+            conn.query( sql, [limit_num], (err, ret) => {
+                    if (err) throw err ;
+                    res.json(ret);
+                }
+            );
+        });
+    }) ;
+
+    app.get("/apis/surveys/:id", (req, res)=>{
+        let id = req.params.id ;
+        let mydb = new Mydb(pool);
+        let sql = 'SELECT id, title, state FROM testdb.Survey where id = ?' ;
+        mydb.execute(conn => {
+            conn.query( sql, [id], (err, ret) => {
+                    if (err) throw err ;
+                    res.json(ret[0]);
+                }
+            );
+        });
+    }) ;
+
+
+    app.put("/apis/surveys/:id", (req, res)=>{
+        let id = req.params.id ;
+        let title = req.body.title;
+        let state = req.body.state ;
+        let mydb = new Mydb(pool);
+        let sql = 'update Survey set  title = ?, state = ?  where id = ?' ;
+        mydb.executeTx(conn => {
+            conn.query( sql, [title, state, id], (err, ret) => {
+                    if (err) throw err ;
+                    res.json(ret);
+                }
+            );
+        });
+    }) ;
+
+
+    app.post("/apis/surveys/:id", (req, res)=>{
+        let title = req.body.title;
+        let state = 0 ;
+        let mydb = new Mydb(pool);
+        let sql = 'insert into Survey ( title, state) values (?,?)' ;
+        mydb.executeTx(conn => {
+            conn.query( sql, [title, state], (err, ret) => {
+                    if (err) throw err ;
+                    res.json(ret);
+                }
+            );
+        });
+    }) ;
 
     app.get("/apis/:no", (req, res)=>{
         let no = req.params.no;

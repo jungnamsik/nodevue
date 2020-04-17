@@ -21,6 +21,18 @@ Vue.use(VueRouter)
     ,component: () => import('../views/Adm')
   },
   {
+    path: '/surveylist'
+    ,name: 'surveylist'
+    ,component: () => import('../views/SurveyList')
+    ,children: [
+      {
+         path: '/surveylist/surveyedit/:id'
+        ,name: 'surveyedit'
+        ,component: () => import('../views/SurveyEdit')
+      }
+    ]
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
