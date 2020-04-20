@@ -39,6 +39,7 @@ module.exports = function(app, pool) {
         let id = req.params.id ;
         let mydb = new Mydb(pool);
         let sql = 'SELECT id, title, state FROM testdb.Survey where id = ?' ;
+        console.log("sql>>",sql);
         mydb.execute(conn => {
             conn.query( sql, [id], (err, ret) => {
                     if (err) throw err ;

@@ -9,13 +9,15 @@
                     href="#"
                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         {{survey.title}}
-                        <span class="badge badge-primary badge-pill">{{surveyCode[survey.state]}}</span>
+                        <span class="badge badge-primary badge-pill" >{{surveyCode[survey.state]}}</span>
                     </router-link>
                     </div>
 
                 </div>
             </div>
-            <div class="col-7"></div>
+            <div class="col-7">
+                <router-view></router-view>
+            </div>
         </div>
     </section>
 </template>

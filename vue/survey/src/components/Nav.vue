@@ -7,7 +7,7 @@
 
           <!-- Brand -->
           <!-- <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank"> -->
-          <a class="navbar-brand waves-effect" href="#" target="_blank">
+          <a class="navbar-brand waves-effect" href="/" target="_blank">
             <strong class="blue-text">Jns Survey</strong>
           </a>
 
